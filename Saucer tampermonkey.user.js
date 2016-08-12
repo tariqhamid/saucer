@@ -99,7 +99,7 @@ function onLoadFn() {
         var request = {
             //'function': 'getSheetNames',
             //'parameters': [sheetId, data],
-            'function': 'getSourceStub',
+            'function': 'saucer_getSourceStub',
             'parameters': [data],
             'devMode': true   // Optional.
         };
@@ -124,11 +124,14 @@ function onLoadFn() {
                 console.log('Script error! Message: ' + error.errorMessage);
             } else {
                 // Here, the function returns an array of strings.
-                var sheetNames = resp.response.result;
+                var src = resp.response.result;
+                console.log(src);
                 console.log('Sheet names in spreadsheet:');
-                sheetNames.forEach(function(name){
+                src.forEach(function(name){
                     console.log(name);
                 });
+                
+                
             }
         });
 

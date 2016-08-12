@@ -1,27 +1,39 @@
-/** This is the Apps Script method these API examples will be calling.
- *
- *  It requires the following scope list, which must be used when authorizing
- *  the API:
- *    https://www.googleapis.com/auth/spreadsheets
- */
+/*
 
-/**
- * Return a list of sheet names in the Spreadsheet with the given ID.
- * @param {String} a Spreadsheet ID.
- * @return {Array} A list of sheet names.
- */
-function getSheetNames(sheetId,data) {
-  var ss = SpreadsheetApp.openById(sheetId);
-  var sheets = ss.getSheets();
-  return sheets.map(function(sheet) {
-        return [sheet.getName(), JSON.stringify(data)]
-  });
+{"Project key (deprecated)":"MUZanSQRlvJgBUXsWbpV2YkMeTNx2jEzZ",
+ "Project key":"MUZanSQRlvJgBUXsWbpV2YkMeTNx2jEzZ",
+ "Script ID":"1IjWiy9LgGjI0904uBB2nPVQwEzYPbcb_ZF6ZA8qZHWxdzkmtwnTPeGvP",
+ "fileNames":["LinkedIn.gs","code.gs","Service.gs","Facebook.gs","Twitter.gs",
+              "Twit-CS.gs","Google.gs","FB2.gs","BetterLogger.gs","Cache.gs",
+              "utils.gs","DriveAccess.gs","utils2.gs","addItem.gs","Index.html",
+              "SelfTest.html","Picker.html","code2.gs","DoGet.gs","Top.html","SelfTest0.html"]}]
+
+*/
+function test_saucer_getSourceStub()
+{
+  var data = {"Project key (deprecated)":"MUZanSQRlvJgBUXsWbpV2YkMeTNx2jEzZ","Project key":"MUZanSQRlvJgBUXsWbpV2YkMeTNx2jEzZ","Script ID":"1IjWiy9LgGjI0904uBB2nPVQwEzYPbcb_ZF6ZA8qZHWxdzkmtwnTPeGvP","fileNames":["LinkedIn.gs","code.gs","Service.gs","Facebook.gs","Twitter.gs","Twit-CS.gs","Google.gs","FB2.gs","BetterLogger.gs","Cache.gs","utils.gs","DriveAccess.gs","utils2.gs","addItem.gs","Index.html","SelfTest.html","Picker.html","code2.gs","DoGet.gs","Top.html","SelfTest0.html","Saucer.gs"]}
+
+  var val = saucer_getSourceStub( data )
+  
+  Logger.log(val)
 }
 
-function getSource(fileNames) {
+function saucer_getSourceStub(data)
+{
+    // return 'abc'
+    return Saucer_.getSourceStub(data)
+}
 
-    // fileNames = ["Code.gs","WriteToFirebase.html","TargetScript.gs"]
-    listCode(fileNames)
+
+Saucer_ = {
+
+// written by Tariq Hamid [ https://github.com/tariqhamid ]
+// 
+
+
+getSource : function (fileNames) {
+
+    this.listCode(fileNames)
 
     return fileNames.map( function(fileName) {
         var f = fileName.split('.')
@@ -38,24 +50,16 @@ function getSource(fileNames) {
       }
      )
 
-}
+},
 
-function getSourceStub(data)
+getSourceStub : function(data)
 {
-    //return 'Hello Nika !!!'
-    return getSource(data.fileNames)
-}
+    return this.getSource(data.fileNames)
+},
 
 
-// ["LinkedIn.gs","code.gs","Service.gs","Facebook.gs","Twitter.gs","Twit-CS.gs","Google.gs","FB2.gs","BetterLogger.gs","Cache.gs","utils.gs","DriveAccess.gs","utils2.gs","addItem.gs","Index.html","SelfTest.html","Picker.html","code2.gs","DoGet.gs","Top.html","SelfTest0.html","saucer.gs"]
-function testListCode()
-{
-    var fileNames = ["LinkedIn.gs","code.gs","Service.gs","Facebook.gs","Twitter.gs","Twit-CS.gs","Google.gs","FB2.gs","BetterLogger.gs","Cache.gs","utils.gs","DriveAccess.gs","utils2.gs","addItem.gs","Index.html","SelfTest.html","Picker.html","code2.gs","DoGet.gs","Top.html","SelfTest0.html","saucer.gs"]
-    var result =  getSource(fileNames)
-}
 
-
-function listCode(fileNames)
+listCode : function (fileNames)
 {
     var id = ScriptApp.getScriptId()
     //var url = ScriptApp.getService().getUrl()
@@ -63,12 +67,16 @@ function listCode(fileNames)
     if(folder.hasNext()) {
         Logger.log('File already exists')
         folder = folder.next()
-        folder = folder.getFoldersByName(id);
-        if(folder.hasNext()) {
-            folder = folder.next()
+        var folder2 = folder.getFoldersByName(id);
+        if(folder2.hasNext()) {
+            folder = folder2.next()
+        }
+        else
+        {
+            folder = folder.createFolder(id);        
         }
     } else {
-        var folder = DriveApp.createFolder('src').createFolder(id);
+        folder = DriveApp.createFolder('src').createFolder(id);
         Logger.log('New folder created!');
       
     }
@@ -101,5 +109,9 @@ function listCode(fileNames)
       }
       
     }
+
+}
+
+
 
 }

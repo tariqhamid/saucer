@@ -44,7 +44,7 @@ function openDialog()
       .showModalDialog(html, 'Dialog title');
 }
 
-
+/*
 function listCode()
 {
     var filesArray = ['FB2','utils2']
@@ -78,11 +78,8 @@ function listCode()
       text = ScriptApp.getResource(name).getDataAsString()
       folder.createFile(fileName, text)
     }
-  
-  
-
 }
-
+*/
 
 function test0()
 {
