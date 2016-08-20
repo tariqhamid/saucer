@@ -15,10 +15,15 @@
 var data = {};
 
 function onLoadFn() {
-    // var CLIENT_ID       = "501974224690-cnf2qi3bpi5najl8448dt5bcf2j7c7fd.apps.googleusercontent.com";
-    var CLIENT_ID       = "906571493642-910o6t3k0nioumud2665q9icap4ol8f0.apps.googleusercontent.com";
-
-    var SCOPES = ['https://www.googleapis.com/auth/documents',
+    var clientDictionary = {
+        'MUZanSQRlvJgBUXsWbpV2YkMeTNx2jEzZ' : "906571493642-910o6t3k0nioumud2665q9icap4ol8f0.apps.googleusercontent.com",
+        'MW6Ktw7UUlFlremClaKWUk0MeTNx2jEzZ' : "602450155491-uddj7ebqssapb3pagvfud0oavpv71b69.apps.googleusercontent.com"
+    };
+    
+    
+    // NB authentification very sensitive to SCOPES !!!
+    var SCOPES = ['https://www.google.com/calendar/feeds',
+                  'https://www.googleapis.com/auth/documents',
                   'https://www.googleapis.com/auth/drive',
                   'https://www.googleapis.com/auth/forms',
                   'https://www.googleapis.com/auth/script.external_request',
@@ -28,13 +33,14 @@ function onLoadFn() {
                   'https://www.googleapis.com/auth/spreadsheets',
                   'https://www.googleapis.com/auth/userinfo.email'];
 
+
     /**
      * Check if current user has authorized this application.
      */
     function checkAuth() {
+        console.log(clientDictionary[data['Project key']]);
         gapi.auth.authorize({
-            'client_id': CLIENT_ID,
-            // 'client_secret': Client_Secret,
+            'client_id': clientDictionary[data['Project key']],
             'scope': SCOPES,
             'immediate': true
         }, handleAuthResult);
@@ -56,7 +62,7 @@ function onLoadFn() {
         } else {
             // Show auth UI, allowing the user to initiate authorization by
             // clicking authorize button.
-            authorizeDiv.style.display = 'inline';
+            //authorizeDiv.style.display = 'inline';
         }
     }
 
@@ -68,7 +74,7 @@ function onLoadFn() {
      */
     function handleAuthClick(event) {
         gapi.auth.authorize({
-            client_id: CLIENT_ID,
+            client_id: clientDictionary[data['Project key']],
             scope: SCOPES,
             immediate: false
         },
@@ -76,34 +82,25 @@ function onLoadFn() {
         return false;
     }
 
-    handleAuthClick();
+    try
+    {
+        handleAuthClick();
+    }
+    catch (e)
+    {
+        alert(e.message);
+    }
 
     function callScriptFunction()
     {
-        // make gapi.client calls
-        // ID of the script to call. Acquire this from the Apps Script editor,
-        // under Publish > Deploy as API executable.
-        //var scriptId = "MGfk-Stpg4YgGTWEPJmS9WEMeTNx2jEzZ";
-        //var scriptId = MUZanSQRlvJgBUXsWbpV2YkMeTNx2jEzZ;
-
         var scriptId = data['Project key'];
-
-        // Initialize parameters for function call.
-        //  Logger = BetterLog.useSpreadsheet('1mAcxMz4yeif70UKf44a4s0aFt4ayx69a6zmlabJwumE')
-        var sheetId = "1mAcxMz4yeif70UKf44a4s0aFt4ayx69a6zmlabJwumE";
-
-        //var API_KEY = "AIzaSyBpHRfrNciZPFonwg3OktJo9Bik1yej1r8";
-        //gapi.client.setApiKey(API_KEY); //developer dashboard generated browser API key 
 
         // Create execution request.
         var request = {
-            //'function': 'getSheetNames',
-            //'parameters': [sheetId, data],
             'function': 'saucer_getSourceStub',
             'parameters': [data],
             'devMode': true   // Optional.
         };
-
 
         // Make the request.
         var op = gapi.client.request({
@@ -130,8 +127,7 @@ function onLoadFn() {
                 src.forEach(function(name){
                     console.log(name);
                 });
-                
-                
+
             }
         });
 

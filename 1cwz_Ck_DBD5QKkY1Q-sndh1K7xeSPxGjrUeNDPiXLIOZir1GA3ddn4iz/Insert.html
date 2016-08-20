@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+
+
+
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+
+  <script>
+
+  function returnedNames(names) {
+    var selectList = new Array("publisher1","publisher2","publisher3");
+
+    for (sel in selectList) {
+      var dropDown = document.getElementById(sel);
+
+      for (i = 0; i < names.length; i++) {
+        var opt = document.createElement("option");
+        opt.text = names[i][0];
+        opt.values = names[i][0];
+        dropDown.options.add(opt);
+      }
+    }
+  }
+
+  google.script.run.withSuccessHandler(returnedNames).getNames();
+
+  </script>
+
+  </head>
+
+  <body>
+
+  <div class="block form-group">
+    <label for="publisher1">First publisher</label>
+    <select id="publisher1"> </select>
+    <label for="publisher2">Second publisher</label>
+    <select id="publisher2"> </select>
+    <label for="publisher3">Third publisher (optional)</label>
+    <select id="publisher3"> </select>
+  </div>
+
+  </body>
+
+</html>
