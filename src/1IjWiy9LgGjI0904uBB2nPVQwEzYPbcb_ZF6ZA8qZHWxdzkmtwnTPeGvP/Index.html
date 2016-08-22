@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <br>
+  <form>
+    Category:<br>
+    <input type="text" name="category">
+    <br>
+    Item:<br>
+    <input type="text" name="item">
+    <br>
+    Manufacturer or Publisher:<br>
+    <input type="text" name="manupub">
+    <br>
+    Details:<br>
+    <input type="text" name="details">
+    <br>
+    Quantity:<br>
+    <input type="text" name="quantity">
+    <br><br>
+     <input type="button" value="Submit"
+        onclick="google.script.run
+            .withSuccessHandler(google.script.host.close)
+            .itemAdd(this.parentNode)" />
+    </form>
+</html>
