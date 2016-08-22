@@ -16,11 +16,12 @@ var data = {};
 
 function onLoadFn() {
     var clientDictionary = {
-        'MUZanSQRlvJgBUXsWbpV2YkMeTNx2jEzZ' : "906571493642-910o6t3k0nioumud2665q9icap4ol8f0.apps.googleusercontent.com",
-        'MW6Ktw7UUlFlremClaKWUk0MeTNx2jEzZ' : "602450155491-uddj7ebqssapb3pagvfud0oavpv71b69.apps.googleusercontent.com"
+        'MUZanSQRlvJgBUXsWbpV2YkMeTNx2jEzZ' : "906571493642-910o6t3k0nioumud2665q9icap4ol8f0.apps.googleusercontent.com",  // tariq-oauth2
+        'MW6Ktw7UUlFlremClaKWUk0MeTNx2jEzZ' : "602450155491-uddj7ebqssapb3pagvfud0oavpv71b69.apps.googleusercontent.com",  // tariq-couch
+        "MikEQHX9sr8MV3Tpsauv0Gg_JiAr4mIiA" : "1045677864060-7o0uujmvgtsf55vngvgj6p4samr3240b.apps.googleusercontent.com"  // synergy
     };
-    
-    
+
+
     // NB authentification very sensitive to SCOPES !!!
     var SCOPES = ['https://www.google.com/calendar/feeds',
                   'https://www.googleapis.com/auth/documents',

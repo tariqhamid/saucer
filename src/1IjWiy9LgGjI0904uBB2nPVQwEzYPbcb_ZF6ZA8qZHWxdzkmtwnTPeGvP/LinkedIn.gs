@@ -117,6 +117,6 @@ function showSidebar() {
  */
 function onLinkedInOpen() {
   SpreadsheetApp.getUi().createAddonMenu()
-      .addItem('Start', 'showSidebar')
+      .addItem('LinkedIn Start', 'showSidebar')
       .addToUi()
 }
