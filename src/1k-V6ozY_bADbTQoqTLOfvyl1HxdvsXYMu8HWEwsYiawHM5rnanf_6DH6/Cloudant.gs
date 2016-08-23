@@ -8,9 +8,6 @@ function testCloudant()
   var data2 =    { "docs": [] }
   
   var dataResponse = syncWithDB(data)
-  //Logger.log(dataResponse.getAllHeaders().toSource());
-  //Logger.log(dataResponse.getContentText());
-  //data = JSON.parse(dataResponse.getContentText());
   
   var headers = processHeaders(dataResponse)
   jsonToSheet(headers)
