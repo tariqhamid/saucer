@@ -2,11 +2,10 @@ _Cushion = {}
 
 _Cushion.urlPrefix = "https://amber.cloudant.com"
 
-_Cushion.login = function (username, password)
+_Cushion.login = function (servername, username, password)
 {
-
-  var url       = 'https://' + username + '.cloudant.com/_session'
-  Synergy.url   = 'https://' + username + '.cloudant.com/'
+  var url       = 'https://' + servername + '.cloudant.com/_session'
+  Synergy.url   = 'https://' + servername + '.cloudant.com/'
   
   var namePass = "name=" + encodeURI(username) + ( password ? "&password=" + encodeURI(password) : '')
   
@@ -36,7 +35,7 @@ _Cushion.login = function (username, password)
      Logger.log(e)
   }
   
-  Logger.log('finished test_login')
+  return dataResponse
 }
 
 
@@ -131,7 +130,7 @@ function test_login()
   var username  = PropertiesService.getScriptProperties().getProperty('user')
   var password  = PropertiesService.getScriptProperties().getProperty('pass')
   
-  _Cushion.login(username, password)
+  _Cushion.login(username, username, password)
   
   var dbs = _Cushion.allDbs(username)
   
@@ -143,6 +142,12 @@ function test_login()
   jsonToSheet({"logout":""})
   jsonToSheet(JSON.parse(ret))
 
-
+  jsonToSheet({})
+  jsonToSheet({"login":"test5"})
+  ret = _Cushion.login('amber','test5','test4')
+  jsonToSheet(JSON.parse(ret))
+  jsonToSheet({"logout":""})         
+  ret = _Cushion.logout()
+  jsonToSheet(JSON.parse(ret))
 }
 
