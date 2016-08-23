@@ -57,16 +57,8 @@ _Cushion.allDbs = function()
 
   response = UrlFetchApp.fetch(url, opt);
   
-  // jsonToSheet(response.getAllHeaders())
-  
-  var resp1=response.getContentText();
-  Logger.log(resp1);  
-  
   var dbs = JSON.parse(response.getContentText())
-  jsonToSheet(dbs)
-  
-  Logger.log('finished _all_dbs')
-  
+
   return dbs
 }
 
@@ -95,12 +87,8 @@ _Cushion.showDbs = function(dbs)
      Logger.log(url)
 
      response = UrlFetchApp.fetch(url, standardGetRequestOptions);
-     //jsonToSheet(response.getAllHeaders())
-  
-     //var resp1=response.getContentText();
-     //Logger.log(resp1);  
-  
-    jsonToSheet({name : dbs[i]})
+
+     jsonToSheet({name : dbs[i]})
      out = JSON.parse(response.getContentText())
      jsonToSheet(out.rows)
   }
@@ -133,12 +121,7 @@ _Cushion.request = function (method, uri, options) {
 
   var url       =  Synergy.url + uri
 
-  var response = UrlFetchApp.fetch(url, options)
-  
-  Logger.log("---------------")
-  
-  var resp1=response.getContentText();
-  Logger.log(resp1); 
+  return UrlFetchApp.fetch(url, options)
   
 }
 
@@ -152,9 +135,13 @@ function test_login()
   
   var dbs = _Cushion.allDbs(username)
   
+  jsonToSheet(dbs)
+  
   _Cushion.showDbs(dbs)
   
-  _Cushion.logout()
+  var ret = _Cushion.logout()
+  jsonToSheet({"logout":""})
+  jsonToSheet(JSON.parse(ret))
 
 
 }
