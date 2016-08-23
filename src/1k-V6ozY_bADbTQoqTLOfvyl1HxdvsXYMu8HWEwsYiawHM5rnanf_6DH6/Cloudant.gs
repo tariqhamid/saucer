@@ -15,11 +15,6 @@ function testCloudant()
   var headers = processHeaders(dataResponse)
   jsonToSheet(headers)
   
-  //var activSpSh = SpreadsheetApp.openById('1IpRz7suYv63ioIJ7kpVVjS_L_Ur9_8dFDgaHQXhP7og')
-  // Feuille répertoires créés
-  //var foldersSh = activSpSh.getActiveSheet();
-  //SpreadsheetApp.open('embedded function')
-  
   var out = JSON.parse(dataResponse.getContentText())
   jsonToSheet(out)
 
@@ -59,7 +54,6 @@ function syncWithDB(data){
     muteHttpExceptions:false
   }
   var dataResponse;
-  //var data;
   try {
       dataResponse = UrlFetchApp.fetch(url, params);
   } catch(e){
