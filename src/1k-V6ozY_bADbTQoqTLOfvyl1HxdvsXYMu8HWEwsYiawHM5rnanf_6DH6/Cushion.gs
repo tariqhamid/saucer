@@ -113,6 +113,8 @@ _Cushion.request = function (method, uri, options) {
   options.headers["Content-Type"] = options.headers["Content-Type"] || options.headers["content-type"] || "application/json"
   options.headers["Accept"] = options.headers["Accept"] || options.headers["accept"] || "application/json"
   
+  options.muteHttpExceptions = true
+  
   if (Synergy.cookie())
       options.headers["Cookie"] = Synergy.cookie()
   
@@ -120,8 +122,100 @@ _Cushion.request = function (method, uri, options) {
 
   var url       =  Synergy.url + uri
 
-  return UrlFetchApp.fetch(url, options)
+  var val 
+  try {
+    val = UrlFetchApp.fetch(url, options)
+  }
+  catch (e)
+  {
+    return e
+  }
   
+  return val
+}
+
+//                 Cushion.createUser('alice5','123')
+// see https://gist.github.com/weilu/10445007
+/*
+Cushion.createUser = function (name, password)
+{
+    var div = document.createElement("div")
+    div.id = "createUser"
+    document.body.appendChild(div)
+
+    QQ.current.push(function ()
+    {
+        Cushion.get('/_users/org.couchdb.user:' + name)
+    },
+            "GET" + '/_users/org.couchdb.user:' + name)
+
+    QQ.current.push(
+            function ()
+            {
+                if (QQ.current.req.responseText)
+                {
+                    var err = JSON.parse(QQ.current.req.responseText)
+                    if (err && err.error === "not_found")
+                    {
+                        var hashAndSalt = generatePasswordHash2(password)
+                        QQ.current.push(
+                                function () {
+                                    Cushion.put("/_users/org.couchdb.user:" + name,
+                                            JSON.stringify({
+                                                name: name,
+                                                password_sha: hashAndSalt[0],
+                                                salt: hashAndSalt[1],
+                                                password_scheme: 'simple',
+                                                type: 'user',
+                                                roles: []   // "roles": ["my-role"], 
+                                                
+                                            })
+                                            )
+                                },
+                                "PUT /_users/org.couchdb.user:"
+                                )
+
+                        QQ.current.processQueue()
+                    }
+                }
+                QQ.current.processQueue()
+            },
+            "Cushion.createUser->waitFirst"
+            )
+
+    QQ.current.processQueue()
+}
+*/
+
+_Cushion.createUser = function (name, password)
+{
+  var ret
+
+  var response = _Cushion.request('GET', '_users/org.couchdb.user:' + name)
+  
+  if (response.getContentText())
+  {
+      var err = JSON.parse(response.getContentText())
+      if (err.error === "not_found")
+      {
+          var hashAndSalt = generatePasswordHash2(password)
+          var options = {}
+          options['payload'] = JSON.stringify({
+                                 name: name,
+                                 password_sha: hashAndSalt[0],
+                                 salt: hashAndSalt[1],
+                                 password_scheme: 'simple',
+                                 type: 'user',
+                                 roles: []   // "roles": ["my-role"], 
+                      })
+          
+          ret = _Cushion.request('put','_users/org.couchdb.user:' + name, options)
+          
+          Logger.log(ret.getContentText())
+      }
+  }
+  
+  return ret
 }
 
 
@@ -130,6 +224,9 @@ function test_login()
   var username  = PropertiesService.getScriptProperties().getProperty('user')
   var password  = PropertiesService.getScriptProperties().getProperty('pass')
   
+  
+if (0)
+{
   _Cushion.login(username, username, password)
   
   var dbs = _Cushion.allDbs(username)
@@ -149,5 +246,9 @@ function test_login()
   jsonToSheet({"logout":""})         
   ret = _Cushion.logout()
   jsonToSheet(JSON.parse(ret))
+}
+  
+  _Cushion.login(username, username, password)
+  _Cushion.createUser('alice9','123')
 }
 
