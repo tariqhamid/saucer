@@ -136,13 +136,13 @@ function getTwitterService() {
 
       // Set the name of the callback function that should be invoked to complete
       // the OAuth flow.
-      .setCallbackFunction('authCallback')
+      .setCallbackFunction('authCallbackTwitter')
 
       // Set the property store where authorized tokens should be persisted.
       .setPropertyStore(PropertiesService.getUserProperties())
 }
 
-function authCallback(request) {
+function authCallbackTwitter(request) {
   var service = getTwitterService();
   var isAuthorized = service.handleCallback(request);
   if (isAuthorized) {

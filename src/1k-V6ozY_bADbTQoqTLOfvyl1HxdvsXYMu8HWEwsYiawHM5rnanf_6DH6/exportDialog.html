@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <form id="form">
+      <select name="repos">
+        <? for (var i = 0; i < repos.length; i++) { ?>
+        <option value="<?= repos[i] ?>"><?= repos[i] ?></option>
+        <? } ?>
+      </select>
+      <input type="button" value="Export" onclick="google.script.run.export(this.parentNode)" />
+    </form>
+  </body>
+</html>

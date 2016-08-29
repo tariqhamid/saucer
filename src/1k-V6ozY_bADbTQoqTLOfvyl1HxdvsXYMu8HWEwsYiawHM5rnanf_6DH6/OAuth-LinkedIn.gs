@@ -2,8 +2,8 @@
 // https://www.linkedin.com/developer/apps/4543533/auth
 //
 
-var CLIENT_ID = '77y1puq9y8a3qq'
-var CLIENT_SECRET = 'x5km81bxRLEyWinW'
+var LinkedIn_CLIENT_ID = '77y1puq9y8a3qq'
+var LinkedIn_CLIENT_SECRET = 'x5km81bxRLEyWinW'
 
 
 /**
@@ -32,7 +32,7 @@ function runLinkedIn() {
 /**
  * Reset the authorization state, so that it can be re-tested.
  */
-function resetLinkedIn() {
+function reset() {
   var service = getServiceLinkedIn();
   service.reset();
 }
@@ -49,8 +49,8 @@ function getServiceLinkedIn() {
       .setTokenUrl('https://www.linkedin.com/uas/oauth2/accessToken')
 
       // Set the client ID and secret.
-      .setClientId(CLIENT_ID)
-      .setClientSecret(CLIENT_SECRET)
+      .setClientId(LinkedIn_CLIENT_ID)
+      .setClientSecret(LinkedIn_CLIENT_SECRET)
 
       // Set the name of the callback function that should be invoked to complete
       // the OAuth flow.
@@ -84,7 +84,7 @@ function authCallbackLinkedIn(request) {
 
 //------------------
 
-function showSidebar() {
+function showSidebarLinkedIn() {
   var service = getServiceLinkedIn();
   if (!service.hasAccess()) {
 
@@ -115,8 +115,14 @@ function showSidebar() {
 /**
  * Creates a menu entry in the Google Docs UI when the document is opened.
  */
-function onLinkedInOpen() {
-  SpreadsheetApp.getUi().createAddonMenu()
-      .addItem('LinkedIn Start', 'showSidebar')
-      .addToUi()
+/*
+function onLinkedInOpen() {function onOpenLinkedIn() {
+  SpreadsheetApp.getUi().
+      .createMenu('OAuth Stuff')
+      .addItem('LinkedIn Authorize', 'showSidebar')
+      .addToUi();
 }
+
+*/
+
+
