@@ -23,6 +23,21 @@ function runLinkedIn() {
     var result = JSON.parse(response.getContentText());
     Logger.log(JSON.stringify(result, null, 2));
   } else {
+/*
+https://www.linkedin.com/uas/oauth2/authorization?client_id=77y1puq9y8a3qq&response_type=code
+&redirect_uri=https%3A%2F%2Fscript.google.com%2Fmacros%2Fd%2F
+MikEQHX9sr8MV3Tpsauv0Gg_JiAr4mIiA       // NB project key !
+%2Fusercallback
+&state=ADEpC8zWuCzWZZrrCNcV4fF6feM3Hu5_MRidzd9FYnVn5O6mbz82rAgkaQmPZ4Ogik4WhmSqAWnto5Zhqrzn_sx2KTTYHX4DS6zIRzC5xAOKARfD-btF2B7CRGoDkcgBw7SwfrOn_-1EMYFwyd_cq9ZhbzWqWDDmKUV-kJjNruCNaDC-bwJT2d5k6bGnSErQs0Tui8zQq1gl67hxR6H_p82J9Mhg_w0OXLd4kbU3CmLMPFShX5zcoDvP8Nh7DgvuUEmPLZF62csg9pn5gnBrrIUjmmsIvOxI_r1MHMlYFvl9QWsiKNzp6vV2pg5lQFO8_LWo0uCR6Din
+&login_hint=tariq%40hamid.com
+*/
+/*
+    Logger.log(ScriptApp.getProjectKey())
+    Logger.log(ScriptApp.getScriptId())
+    Logger.log(ScriptApp.getOAuthToken())
+    Logger.log(ScriptApp.getService().getUrl())
+    Logger.log(ScriptApp.getInstallationSource())
+*/
     var authorizationUrl = service.getAuthorizationUrl();
     Logger.log('Open the following URL and re-run the script: %s',
         authorizationUrl);
@@ -32,7 +47,7 @@ function runLinkedIn() {
 /**
  * Reset the authorization state, so that it can be re-tested.
  */
-function reset() {
+function resetLinkedIn() {
   var service = getServiceLinkedIn();
   service.reset();
 }
