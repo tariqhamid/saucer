@@ -11,7 +11,7 @@ var CLIENT_SECRET = '12abe962d46a2212629ac3f3b77d04bc'
  * Authorizes and makes a request to the Facebook API.
  */
 
-function run(e) {
+function runFB(e) {
   var service = getService();
   var html = '';
   if (service.hasAccess()) {
@@ -33,7 +33,7 @@ function run(e) {
 /**
  * Reset the authorization state, so that it can be re-tested.
  */
-function reset() {
+function resetFB() {
   var service = getService();
   service.reset();
 }
@@ -41,7 +41,7 @@ function reset() {
 /**
  * Configures the service.
  */
-function getService() {
+function getServiceFb() {
   return OAuth2.createService('Facebook')
       // Set the endpoint URLs.
       .setAuthorizationBaseUrl('https://www.facebook.com/dialog/oauth')
@@ -79,6 +79,6 @@ function FBauthCallback(request) {
 //------------
 // [16-07-20 01:08:13:119 BST] https://script.google.com/macros/d/MW6Ktw7UUlFlremClaKWUk0MeTNx2jEzZ/usercallback
 function logRedirectUri() {
-    var service = getService();
+    var service = getServiceFB();
     Logger.log(service.getRedirectUri());
 }

@@ -4,30 +4,90 @@
  * https://developers.facebook.com/apps/
  */
 
-var FB_CLIENT_ID = '271118276599099'
-var FB_CLIENT_SECRET = '12abe962d46a2212629ac3f3b77d04bc'
+var FB_CLIENT_ID = '912362655576180'
+var FB_CLIENT_SECRET = '35de3e2219c9bf4ab35af180d3529ced'
 
+/*
+email : Provides access to the person's primary email address. This permission is approved by default.
+public_profile : Provides access to a person's basic information, including first name, last name, profile picture, gender and age range. This permission is approved by default.
+user_friends : Provides access to a person's list of friends that also use your app. This permission is approved by default.
+
+ {
+  "name": "Tariq Hamid",
+  "id": "10210399101874769"
+ }
+
+API Tester: https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Ftaggable_friends&version=v2.7
+*/
+/*
+So, in v2.0 you'll only be able to get all friends via the /me/taggable_friends 
+(https://developers.facebook.com/docs/graph-api/reference/v2.0/user/taggable_friends) endpoint,
+which only contains the fields id, name, picture, and only can be used after a review of your app by Facebook.
+
+
+*/
 /*
  * Authorizes and makes a request to the Facebook API.
  */
 
-function run(e) {
+function runFB(e) {
   var service = getServiceFB();
   var html = '';
   if (service.hasAccess()) {
-    var url = 'https://graph.facebook.com/v2.6/me';
+    var url = 'https://graph.facebook.com/v2.6/me'
     var response = UrlFetchApp.fetch(url, {
       headers: {
         'Authorization': 'Bearer ' + service.getAccessToken()
-      }
+      } ,
+      // "useIntranet" : true
+      muteHttpExceptions:true
     });
     var result = JSON.parse(response.getContentText());
     Logger.log(JSON.stringify(result, null, 2));
+    Logger.log(result);
+    
+    /*
+      http://stackoverflow.com/questions/23507885/retrieve-full-list-of-friends-using-facebook-api
+    
+    So, in v2.0 you'll only be able to get all friends via the /me/taggable_friends
+    (https://developers.facebook.com/docs/graph-api/reference/v2.0/user/taggable_friends) endpoint,
+    which only contains the fields id, name, picture, and only can be used after a review of your app by Facebook.
+    */
+    // http://stackoverflow.com/questions/23507885/retrieve-full-list-of-friends-using-facebook-api
+    //url = 'https://graph.facebook.com/v2.7/me/taggable_friends?limit=50&access_token=' + service.getAccessToken()
+    url = 'https://graph.facebook.com/v2.7/me/friends?limit=50&access_token=' + service.getAccessToken()
+    //url = 'https://graph.facebook.com/v2.6/me/permissions?limit=50&access_token=' + service.getAccessToken()
+    response = UrlFetchApp.fetch(url, {
+      headers: {
+        'Authorization': 'Bearer ' + service.getAccessToken()
+      } ,
+      // "useIntranet" : true
+      muteHttpExceptions:true
+    });
+    var result = JSON.parse(response.getContentText());
+    Logger.log(JSON.stringify(result, null, 2));
+    Logger.log(result);
+    
+    
+    url = 'https://graph.facebook.com/v2.6/me/permissions'
+    response = UrlFetchApp.fetch(url, {
+      headers: {
+        'Authorization': 'Bearer ' + service.getAccessToken()
+      } ,
+      // "useIntranet" : true
+      muteHttpExceptions:true
+    });
+    var result = JSON.parse(response.getContentText());
+    Logger.log(JSON.stringify(result, null, 2));
+    Logger.log(result);
+
+
   } else {
-    var authorizationUrl = service.getAuthorizationUrl();
+    var authorizationUrl = service.getAuthorizationUrl() // + '&email&public_profile&user_friends';
     Logger.log('Open the following URL and re-run the script: %s',
         authorizationUrl);
   }
+
 }
 
 /**
